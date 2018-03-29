@@ -5,7 +5,7 @@
     </a>
   </div>
 
-  <div id="teamContainer" class="collapse"  data-parent="#accordion">
+  <div id="teamContainer" class="collapse show"  data-parent="#accordion">
     <div class="card-body">
 
       <div id="teams">
@@ -25,11 +25,11 @@
               <a class="card-link" data-toggle="collapse" [attr.href]="'#team_' + t.id">
                 {{t.name}}
               </a>
-              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteFromTeam(i)">
+              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteTeam(t.id, i)">
                 <span class="fa fa-trash-o"></span>
               </button>
              
-              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="t.editable=!t.editable">
+              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="saveOrUpdate(t)">
                 <span *ngIf="!t.editable" class="fa fa-pencil"></span>
                 <span *ngIf="t.editable" class="fa fa-save"></span>
               </button>

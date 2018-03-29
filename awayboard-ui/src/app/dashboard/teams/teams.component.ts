@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Team } from '../../../model/employee';
+import { Team, ServiceResponse } from '../../../model/models';
+import { TeamService } from '../../../services/team/team.service';
 
 @Component({
   selector: 'app-teams',
@@ -11,8 +12,7 @@ export class TeamsComponent implements OnInit {
   @Input()
   private teams;
 
-
-  constructor() { }
+  constructor(private teamService: TeamService) { }
 
   ngOnInit() {
   }
@@ -27,11 +27,51 @@ export class TeamsComponent implements OnInit {
         alert("Save the draft version first.");
     else
       this.teams.push(new Team());
-    // document.getElementById("team_0").classList.add("show");
   }
 
-  deleteFromTeam(i){
-    this.teams.splice(i, 1);
+  saveOrUpdate(team){
+    if(!team.editable)
+      team.editable = true;
+    else{
+      if(team.id == 0){
+        this.teamService.createTeam(team).subscribe(
+          (res: ServiceResponse) => {
+            team.editable = false;
+            team.id = res.data.id;
+            alert("Success");
+            console.log("Team save successfully");
+          },
+          err => {
+            alert("Error in saving team.");
+            console.log("Error in saving team.");
+          }
+        );
+      }else{
+        this.teamService.updateTeam(team).subscribe(
+          data => {
+            team.editable = false;
+            alert("Success");
+            console.log("Team updated successfully");
+          },
+          err => {
+            alert("Error in updating team.");
+            console.log("Error in updating team.");
+          }
+        );
+      }
+    }
+  }
+  deleteTeam(id, i){
+    this.teamService.deleteTeamById(id).subscribe(
+      (res: ServiceResponse) => {
+        alert("Success")
+        console.log("delete: ", res);
+        this.teams.splice(i, 1);
+      },
+      err => {
+        alert("Error in deleting team.");
+      }
+    );
   }
 
 }

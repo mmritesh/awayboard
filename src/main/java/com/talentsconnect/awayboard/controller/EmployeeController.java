@@ -8,7 +8,10 @@ import com.talentsconnect.awayboard.repo.TeamRepo;
 import com.talentsconnect.awayboard.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +24,7 @@ import java.util.List;
  * Created by ritesh on 27/3/18.
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class EmployeeController {
 
     private EmployeeRepo employeeRepo;
@@ -43,8 +47,9 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee")
-    public ResponseEntity<ServiceResponse<Employee>> postEmployee(@RequestBody EmployeeDto employee){
-        return ResponseEntity.ok().body(new ServiceResponse<>(employeeService.saveEmployee(employee)));
+    public ResponseEntity<ServiceResponse<List<Employee>>> postEmployee(@RequestBody EmployeeDto employee){
+        employeeService.saveEmployee(employee);
+        return ResponseEntity.ok().body(new ServiceResponse<>(employeeRepo.findAll()));
     }
     @PutMapping("/employee/{employee-id}/status/{status}")
     public ResponseEntity<ServiceResponse<Employee>> updateEmployeeStatus(@RequestParam("employee-id") Long employeeId,
@@ -52,6 +57,11 @@ public class EmployeeController {
         return ResponseEntity.ok().body(new ServiceResponse<>(employeeService.updateEmployeeStatus(employeeId, status)));
     }
 
+    @DeleteMapping("/employee/{employee-id}")
+    public ResponseEntity<ServiceResponse<Void>> deleteMapping(@PathVariable("employee-id") Long id){
+        employeeRepo.delete(id);
+        return ResponseEntity.ok().body(new ServiceResponse<>(null));
+    }
      /*@PutMapping("/employee/{employee-id}")
     public ResponseEntity<ServiceResponse<Employee>> updateEmployee(@RequestBody EmployeeDto employee){
         return null;

@@ -101,6 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         }catch (EntityNotFoundException e){
             throw new CustomException(ErrorCode.UNABLE_FIND_ONE_OF_THE_TEAMS);
         }
+        if (!teams.isEmpty())
         employee.setTeams(teams);
         return employee;
     }

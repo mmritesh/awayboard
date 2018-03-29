@@ -7,6 +7,11 @@ import { EmployeesComponent } from './dashboard/employees/employees.component';
 import { TeamsComponent } from './dashboard/teams/teams.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EmployeeService } from '../services/employee/employee.service';
+import { TeamService } from '../services/team/team.service';
+import { AppRoutingModule } from './app-routing.module';
+import { EmployeeResolver } from '../resolvers/employee.resolver';
+import { TeamResolver } from '../resolvers/team.resolver';
 
 @NgModule({
   declarations: [
@@ -18,9 +23,10 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [EmployeeService, TeamService, EmployeeResolver, TeamResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

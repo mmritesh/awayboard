@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,12 @@ public class Team {
     @Column
     private String imageUrl;
 
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany(cascade = {
+        CascadeType.DETACH,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.PERSIST
+    },mappedBy = "teams")
     @JsonManagedReference
     @JsonIgnore
     private List<Employee> employees;

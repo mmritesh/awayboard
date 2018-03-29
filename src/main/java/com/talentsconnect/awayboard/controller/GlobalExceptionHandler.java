@@ -5,6 +5,7 @@ import com.talentsconnect.awayboard.entity.Employee;
 import com.talentsconnect.awayboard.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ServiceResponse<Employee>> handleCustomException(CustomException e, HttpServletRequest request) {
         LOG.error(request.getMethod() + " to URL: " + request.getRequestURL() + " has failed.", e);
         return ResponseEntity.badRequest().body(new ServiceResponse<>(null, e.getErrorDescription(), true));
+    }
+
+    @ExceptionHandler(value = EmptyResultDataAccessException.class)
+    public ResponseEntity<ServiceResponse<Employee>> handleEmptyResultDataAccessException(EmptyResultDataAccessException e, HttpServletRequest request) {
+        LOG.error(request.getMethod() + " to URL: " + request.getRequestURL() + " has failed.", e);
+        return ResponseEntity.badRequest().body(new ServiceResponse<>(null, e.getMessage(), true));
     }
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "An unknown error as occurred.")

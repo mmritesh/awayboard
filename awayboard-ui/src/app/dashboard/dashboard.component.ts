@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router,private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.employees = this.activatedRoute.snapshot.data['employees'].data;
+    this.teams = this.activatedRoute.snapshot.data['teams'].data;
+    console.log("this.teams: ", this.activatedRoute.snapshot.data['teams']);
   }
 
   
@@ -54,7 +58,7 @@ export class DashboardComponent implements OnInit {
       ]
     }
   ];
-   
+
   private employees = [
     {
       "id": 1,
