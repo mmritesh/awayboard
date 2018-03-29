@@ -1,0 +1,43 @@
+<div class="card mb-3">
+    <div class="card-header">
+      <a class="card-link" data-toggle="collapse" href="#employeeContainer">
+        Employees
+      </a>
+    </div>
+    <div id="employeeContainer" class="collapse" data-parent="#accordion">
+
+      <div id="employees">
+        <div class="card-body">
+          <div class="card" *ngFor="let e of employees">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" [attr.href]="'#' + e.id">
+                {{e.name}}
+              </a>
+              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to edit" (click)="e.editable=!e.editable">
+                <span *ngIf="!e.editable" class="fa fa-pencil"></span>
+                <span *ngIf="e.editable" class="fa fa-save"></span>
+              </button>
+            </div>
+            <div [attr.id]="e.id" class="collapse" data-parent="#employees">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img class="thumbnail-pic" src="assets/images/sandeep.jpg">
+                  </div>
+                  <div class="col-md-5">
+                    <p class="mb-1">Name: &nbsp;<input class="form-control" placeholder="Enter Name" [readonly]="!e.editable" [(ngModel)]="e.name">                        </p>
+                    <p class="mb-1">Status: <input class="form-control" placeholder="Enter Status" [readonly]="!e.editable" [(ngModel)]="e.currentStatus">                        </p>
+                  </div>
+                  <div class="col-md-5">
+                    <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!e.editable" [(ngModel)]="e.imageUrl">                        </p>
+                    <p class="mb-1">Teams: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" placeholder="TBD" [readonly]="!e.editable">                        </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>

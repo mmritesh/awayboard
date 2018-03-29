@@ -1,0 +1,63 @@
+<div class="card mb-1">
+  <div class="card-header" >
+    <a class="card-link" data-toggle="collapse" href="#teamContainer">
+      Teams
+    </a>
+  </div>
+
+  <div id="teamContainer" class="collapse"  data-parent="#accordion">
+    <div class="card-body">
+
+      <div id="teams">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-outline-info btn-sm  mb-2" title="Add new team."
+                      (click)="addNewTeam()">
+                <span class="fa fa-plus"></span>
+              </button>
+              <span>Add new team</span>
+            </div>
+          </div>
+
+          <div class="card mb-1" *ngFor="let t of teams; let i = index;">
+            <div class="card-header">
+              <a class="card-link" data-toggle="collapse" [attr.href]="'#team_' + t.id">
+                {{t.name}}
+              </a>
+              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteFromTeam(i)">
+                <span class="fa fa-trash-o"></span>
+              </button>
+             
+              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="t.editable=!t.editable">
+                <span *ngIf="!t.editable" class="fa fa-pencil"></span>
+                <span *ngIf="t.editable" class="fa fa-save"></span>
+              </button>
+            
+              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard.">
+                <span class="fa fa-eye"></span>
+              </button>
+            </div>
+            <div [attr.id]="'team_' + t.id" class="collapse" [ngClass]="{'show': t.editable}" data-parent="#teams">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img *ngIf="t.imageUrl!=''" class="thumbnail-pic" [src]="t.imageUrl">
+                    <img *ngIf="t.imageUrl==''" class="thumbnail-pic" src="assets/images/avatar.png">
+                  </div>
+                  <div class="col-md-5">
+                    <p class="mb-1">Name: &nbsp;<input class="form-control" placeholder="Enter Name" [readonly]="!t.editable" [(ngModel)]="t.name">                          </p>
+                  </div>
+                  <div class="col-md-5">
+                    <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!t.editable" [(ngModel)]="t.imageUrl">                          </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
