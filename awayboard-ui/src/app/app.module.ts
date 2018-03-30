@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { EmployeesComponent } from './dashboard/employees/employees.component';
@@ -14,6 +14,8 @@ import { EmployeeResolver } from '../resolvers/employee.resolver';
 import { TeamResolver } from '../resolvers/team.resolver';
 import { AwayboardComponent } from './awayboard/awayboard.component';
 import { TeamByIdResolver } from '../resolvers/team-by-id.resolver';
+import { Ng2DragDropModule } from 'ng2-drag-drop';
+import { Select2Module } from "ng2-select2/ng2-select2";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { TeamByIdResolver } from '../resolvers/team-by-id.resolver';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Ng2DragDropModule.forRoot(),
+    Select2Module
   ],
   providers: [EmployeeService, TeamService, EmployeeResolver, TeamResolver, TeamByIdResolver],
   bootstrap: [AppComponent]

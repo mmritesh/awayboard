@@ -58,8 +58,8 @@ public class EmployeeController {
         return ResponseEntity.ok().body(new ServiceResponse<List<Employee>>(employeeRepo.findAll()));
     }
     @PutMapping("/employee/{employee-id}/status/{status}")
-    public ResponseEntity<ServiceResponse<Employee>> updateEmployeeStatus(@RequestParam("employee-id") Long employeeId,
-                                                                          @RequestParam("status") Employee.Status status){
+    public ResponseEntity<ServiceResponse<Employee>> updateEmployeeStatus(@PathVariable("employee-id") Long employeeId,
+                                                                          @PathVariable("status") Employee.Status status){
         return ResponseEntity.ok().body(new ServiceResponse<>(employeeService.updateEmployeeStatus(employeeId, status)));
     }
 

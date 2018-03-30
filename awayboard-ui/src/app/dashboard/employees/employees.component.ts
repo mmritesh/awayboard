@@ -25,7 +25,7 @@ export class EmployeesComponent implements OnInit {
         this.employeeService.createEmployee(employee).subscribe(
           (res: ServiceResponse) => {
             alert("Success");
-            this.employees.id = res.data.id;
+            employee.id = res.data.id;
             employee.editable = false;
           },
           err => {

@@ -9,7 +9,7 @@ import { TeamByIdResolver } from '../resolvers/team-by-id.resolver';
 const routes: Routes = [
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   {path: 'dashboard', component: DashboardComponent, resolve: {employees : EmployeeResolver, teams : TeamResolver} },
-  {path: 'awayboard/:teamId', component: AwayboardComponent},
+  {path: 'awayboard/:teamId', component: AwayboardComponent, resolve: {employees : EmployeeResolver}},
 
 ];
 

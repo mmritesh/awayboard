@@ -25,8 +25,11 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
+    "ng2-drag-drop": "^3.0.2",
     "ng2-dragula": "^1.5.0",
+    "ng2-select2": "^1.0.0-beta.11",
     "rxjs": "^5.5.6",
+    "select2": "^4.0.3",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

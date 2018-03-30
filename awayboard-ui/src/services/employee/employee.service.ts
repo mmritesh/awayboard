@@ -23,4 +23,8 @@ export class EmployeeService {
   updateEmployee(employee){
     return this.http.put(AppConstants.API_BASE + AppConstants.API_EMPLOYEE, employee);
   }
+
+  updateEmployeeStatus(id, status){
+    return this.http.put(AppConstants.API_BASE + AppConstants.API_EMPLOYEE + "/" + id + AppConstants.API_STATUS + "/" + status, null);
+  }
 }

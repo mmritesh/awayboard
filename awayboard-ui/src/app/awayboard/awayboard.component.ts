@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TeamService } from '../../services/team/team.service';
-import { ServiceResponse } from '../../model/models';
+import { ServiceResponse, Employee } from '../../model/models';
+import { EmployeeService } from '../../services/employee/employee.service';
+import { AppConstants } from '../app.constants';
+import { Select2OptionData } from 'ng2-select2';
 
 @Component({
   selector: 'app-awayboard',
@@ -12,11 +15,20 @@ export class AwayboardComponent implements OnInit {
   id: number;
   private sub: any;
   private team: any;
+  private employees;
+  private allEmployees;
 
-  constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService) {}
+  private show = false; 
+  private readonly statuses = AppConstants.STATUS;
+  private employeeDropdownData = new Array<Select2OptionData>();
 
+  constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService,
+              private employeeService:EmployeeService){
+  }
+ 
   ngOnInit() {
-    // this.team = this.activatedRoute.snapshot.data['team'].data;
+    this.allEmployees = this.activatedRoute.snapshot.data['employees'].data;
+    this.initializeSelect2Data();    
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.id = +params['teamId']; // (+) converts string 'id' to a number
       this.getTeamById(this.id);
@@ -24,18 +36,62 @@ export class AwayboardComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
-  getTeamById(id){
+  onOffice(e: any){
+    this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[0]);
+  }
+
+  onHomeOffice(e: any){
+    this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[1]);
+  }
+
+  onAway(e: any){
+    this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[2]);
+  }
+
+  getIndex(id: any, list: Array<any>){
+    let index = list.map(function (e) {
+      return e.id
+    }).indexOf(id);
+    return index;
+  }
+
+  getTeamById(id) {
     this.teamService.getTeamById(id).subscribe(
       (res: ServiceResponse) => {
         this.team = res.data;
-        console.log("Awayboard Component: ", this.team);        
+        this.employees = res.data.employees;
+        this.show = true;
+        console.log("Awayboard Component: ");
       },
       err => {
+        this.show= false;
         alert("Error getting teams.");
       }
-    );        
+    );
   }
 
+  updateEmployeeStatus(e: Employee, status){
+    this.employeeService.updateEmployeeStatus(e.id, status).subscribe(
+      (res: ServiceResponse) => {
+        let i = this.getIndex(res.data.id, this.employees);
+        this.employees[i].currentStatus = status;
+      },
+      err => {
+        alert("Error in updating employee status.");
+      }
+    );
+  }
+
+  initializeSelect2Data(){
+    this.allEmployees.forEach(emp => {
+      this.employeeDropdownData.push({
+        id: emp.id,
+        text: emp.name
+      })
+    });
+    console.log("Select 2 data: ", this.employeeDropdownData);
+  }
 }

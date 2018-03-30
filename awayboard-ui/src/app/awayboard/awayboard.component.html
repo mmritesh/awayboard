@@ -1,3 +1,40 @@
-<p>
-  awayboard works!
-</p>
+<div *ngIf="show">
+  <h3>The Awaybord | Team: {{team.name}}</h3>
+  
+  <p>Select Employee to add: <select2 [data]="employeeDropdownData" [cssImport]=true></select2></p>
+  <hr>
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div droppable class="card card-outline-primary mb-3" [dragOverClass]="'drag-target-border-green'" [dragHintClass]="'drag-hint'"
+        (onDrop)="onOffice($event)">
+        <div class="card-header card-inverse card-primary">Office</div>
+        <div class="card-block scroll-list" *ngFor="let e of employees">
+          <li *ngIf="e.currentStatus==statuses[0]" class="list-group-item" [draggable] [dragData]="e">{{e.name}}</li>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div droppable class="card card-outline-primary mb-3" [dragOverClass]="'drag-target-border-green'" [dragHintClass]="'drag-hint'"
+        (onDrop)="onHomeOffice($event)">
+        <div class="card-header card-inverse card-primary">Home Office</div>
+        <div class="card-block scroll-list" *ngFor="let e of employees">
+          <li *ngIf="e.currentStatus==statuses[1]" class="list-group-item" [draggable] [dragData]="e">{{e.name}}</li>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div droppable class="card card-outline-primary mb-3" [dragOverClass]="'drag-target-border-green'" [dragHintClass]="'drag-hint'"
+        (onDrop)="onAway($event)">
+        <div class="card-header card-inverse card-primary">Away</div>
+        <div class="card-block scroll-list" *ngFor="let e of employees">
+          <li *ngIf="e.currentStatus==statuses[2]" class="list-group-item" [draggable] [dragData]="e">{{e.name}}</li>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
