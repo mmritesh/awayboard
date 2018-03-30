@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Team, ServiceResponse } from '../../../model/models';
 import { TeamService } from '../../../services/team/team.service';
+import { AppConstants } from '../../app.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teams',
@@ -12,7 +14,7 @@ export class TeamsComponent implements OnInit {
   @Input()
   private teams;
 
-  constructor(private teamService: TeamService) { }
+  constructor(private teamService: TeamService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -62,7 +64,10 @@ export class TeamsComponent implements OnInit {
     }
   }
   deleteTeam(id, i){
-    this.teamService.deleteTeamById(id).subscribe(
+    if(id === 0){
+      this.teams.splice(i, 1);
+    }else{
+      this.teamService.deleteTeamById(id).subscribe(
       (res: ServiceResponse) => {
         alert("Success")
         console.log("delete: ", res);
@@ -72,6 +77,12 @@ export class TeamsComponent implements OnInit {
         alert("Error in deleting team.");
       }
     );
+    }
+    
   }
 
+  viewAwayboard(teamId){
+    sessionStorage.setItem(AppConstants.TEAM_ID, teamId);
+    this.router.navigate(['/awayboard', teamId]);
+  }
 }

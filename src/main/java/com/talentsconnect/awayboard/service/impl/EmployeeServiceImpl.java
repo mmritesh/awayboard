@@ -72,6 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         return teamRepo.findById(teamId);
     }
 
+    @Override
     public Employee updateEmployee(EmployeeDto employeeDto){
         if (employeeDto.getId() != 0){
             Employee employee = employeeRepo.findById(employeeDto.getId());
@@ -94,15 +95,17 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setCurrentStatus(employeeDto.getCurrentStatus());
         employee.setName(employeeDto.getName());
 
-        List<Team> teams = new ArrayList<>();
+        if (employee.getTeams() != null && !employee.getTeams().isEmpty()){
+            List<Team> teams = new ArrayList<>();
 
-        try {
-            employeeDto.getTeams().forEach(teamId -> teams.add(teamRepo.findById(teamId)));
-        }catch (EntityNotFoundException e){
-            throw new CustomException(ErrorCode.UNABLE_FIND_ONE_OF_THE_TEAMS);
+            try {
+                employeeDto.getTeams().forEach(teamId -> teams.add(teamRepo.findById(teamId)));
+            }catch (EntityNotFoundException e){
+                throw new CustomException(ErrorCode.UNABLE_FIND_ONE_OF_THE_TEAMS);
+            }
+            employee.setTeams(teams);
         }
-        if (!teams.isEmpty())
-        employee.setTeams(teams);
+
         return employee;
     }
 

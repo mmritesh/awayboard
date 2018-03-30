@@ -12,13 +12,16 @@ import { TeamService } from '../services/team/team.service';
 import { AppRoutingModule } from './app-routing.module';
 import { EmployeeResolver } from '../resolvers/employee.resolver';
 import { TeamResolver } from '../resolvers/team.resolver';
+import { AwayboardComponent } from './awayboard/awayboard.component';
+import { TeamByIdResolver } from '../resolvers/team-by-id.resolver';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeesComponent,
     TeamsComponent,
-    DashboardComponent
+    DashboardComponent,
+    AwayboardComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import { TeamResolver } from '../resolvers/team.resolver';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [EmployeeService, TeamService, EmployeeResolver, TeamResolver],
+  providers: [EmployeeService, TeamService, EmployeeResolver, TeamResolver, TeamByIdResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

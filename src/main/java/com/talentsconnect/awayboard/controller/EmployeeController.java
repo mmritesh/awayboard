@@ -51,6 +51,12 @@ public class EmployeeController {
         employeeService.saveEmployee(employee);
         return ResponseEntity.ok().body(new ServiceResponse<>(employeeRepo.findAll()));
     }
+
+    @PutMapping("/employee")
+    public ResponseEntity<ServiceResponse<List<Employee>>> updateEmployee(@RequestBody EmployeeDto employeeDto){
+        employeeService.updateEmployee(employeeDto);
+        return ResponseEntity.ok().body(new ServiceResponse<List<Employee>>(employeeRepo.findAll()));
+    }
     @PutMapping("/employee/{employee-id}/status/{status}")
     public ResponseEntity<ServiceResponse<Employee>> updateEmployeeStatus(@RequestParam("employee-id") Long employeeId,
                                                                           @RequestParam("status") Employee.Status status){

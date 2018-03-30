@@ -34,7 +34,7 @@
                 <span *ngIf="t.editable" class="fa fa-save"></span>
               </button>
             
-              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard.">
+              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard." (click)="viewAwayboard(t.id)">
                 <span class="fa fa-eye"></span>
               </button>
             </div>

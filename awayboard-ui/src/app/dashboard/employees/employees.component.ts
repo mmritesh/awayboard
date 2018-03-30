@@ -11,32 +11,69 @@ export class EmployeesComponent implements OnInit {
 
   @Input()
   private employees;
-  
+
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit() {
   }
 
-  createOrUpdateEmployee(employee){
-    this.employeeService.createEmployee(employee).subscribe(
+  createOrUpdateEmployee(employee) {
+    if(!employee.editable)
+      employee.editable = true;
+    else{
+      if(employee.id === 0){
+        this.employeeService.createEmployee(employee).subscribe(
+          (res: ServiceResponse) => {
+            alert("Success");
+            this.employees.id = res.data.id;
+            employee.editable = false;
+          },
+          err => {
+            alert("Error in creating employee.");
+            console.log("Error ", err);
+          }
+        );
+      }else {
+        this.employeeService.updateEmployee(employee).subscribe(
+          (res: ServiceResponse) => {
+            alert("Success");
+            // this.employees = res.data;
+            employee.editable = false;
+          }, 
+          ( err: ServiceResponse) => {
+            alert("Error in updating employee. ")
+            console.log("Error, ", err);
+          }
+        )
+      }
+    }
+  }
+  addNewEmployee() {
+    let f = false;
+    this.employees.forEach(t => {
+      if (t.id === 0)
+        f = true;
+    });
+    if (f)
+      alert("Save the draft version first.");
+    else
+      this.employees.push(new Employee());
+  }
+
+  deleteEmployee(id, i) {
+    if (id === 0) {
+       this.employees.splice(i, 1);
+    } else {
+      this.employeeService.deleteEmployee(id).subscribe(
         (res: ServiceResponse) => {
-          alert("Success");
-          this.employees = res.data;
+          this.employees.splice(i, 1);
+          alert("Success.")
         },
         err => {
-          alert("Error in creating employee.");
+          alert("Error in deleting employee")
         }
       );
     }
-  addNewEmployee(){
-    let f = false;
-    this.employees.forEach(t => {
-      if(t.id === 0)
-        f = true;
-    });
-    if(f)
-        alert("Save the draft version first.");
-    else
-      this.employees.push(new Employee());
+
   }
 }

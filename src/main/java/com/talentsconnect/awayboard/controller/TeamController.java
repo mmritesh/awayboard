@@ -47,7 +47,7 @@ public class TeamController {
     }
 
     @GetMapping("/team/{team-id}")
-    public ResponseEntity<ServiceResponse<Team>> getTeamById(@RequestParam("team-id") Long id){
+    public ResponseEntity<ServiceResponse<Team>> getTeamById(@PathVariable("team-id") Long id){
         return ResponseEntity.ok().body(new ServiceResponse<>(teamRepo.findById(id)));
     }
 

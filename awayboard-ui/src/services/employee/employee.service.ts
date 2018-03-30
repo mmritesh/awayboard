@@ -16,4 +16,11 @@ export class EmployeeService {
     return this.http.post(AppConstants.API_BASE + AppConstants.API_EMPLOYEE, employee);
   }
 
+  deleteEmployee(id){
+    return this.http.delete(AppConstants.API_BASE + AppConstants.API_EMPLOYEE + "/" + id);
+  }
+
+  updateEmployee(employee){
+    return this.http.put(AppConstants.API_BASE + AppConstants.API_EMPLOYEE, employee);
+  }
 }

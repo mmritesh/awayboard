@@ -18,15 +18,15 @@
             </div>
           </div>
 
-          <div class="card mb-1" *ngFor="let e of employees">
+          <div class="card mb-1" *ngFor="let e of employees; let i = index">
             <div class="card-header">
               <a class="card-link" data-toggle="collapse" [attr.href]="'#' + e.id">
                 {{e.name}}
               </a>
-              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteTeam(t.id, i)">
+              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete employee." (click)="deleteEmployee(e.id, i)">
                 <span class="fa fa-trash-o"></span>
               </button>
-              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="e.editable=!e.editable">
+              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="createOrUpdateEmployee(e)">
                 <span *ngIf="!e.editable" class="fa fa-pencil"></span>
                 <span *ngIf="e.editable" class="fa fa-save"></span>
               </button>
@@ -35,7 +35,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2">
-                    <img class="thumbnail-pic" src="assets/images/sandeep.jpg">
+                    <img class="thumbnail-pic" [src]="e.imageUrl">
                   </div>
                   <div class="col-md-5">
                     <p class="mb-1">Name: &nbsp;<input class="form-control" placeholder="Enter Name" [readonly]="!e.editable" [(ngModel)]="e.name">                      </p>

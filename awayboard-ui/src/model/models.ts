@@ -15,8 +15,8 @@ export class ServiceResponse{
 export class Employee{
     id: number = 0;
     name: string;
-    imageUrl: string;
+    imageUrl: string = "assets/images/avatar.png";
     currentStatus: string;
-    teams: any[];
+    teams: any[] = [];
     editable: boolean =  true;
 }

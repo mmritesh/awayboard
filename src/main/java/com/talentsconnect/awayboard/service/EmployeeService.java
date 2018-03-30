@@ -13,4 +13,5 @@ public interface EmployeeService {
     Team postEmployeeToTeam(Long teamId, Long employeeId);
     Team deleteEmployeeFromTeam(Long teamId, Long employeeId);
     Employee updateEmployeeStatus(Long employeeId, Employee.Status status);
+    Employee updateEmployee(EmployeeDto employeeDto);
 }
