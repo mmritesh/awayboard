@@ -12,7 +12,7 @@ export class EmployeesComponent implements OnInit {
   @Input()
   private employees;
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private appService: EmployeeService) { }
 
   ngOnInit() {
   }
@@ -22,7 +22,7 @@ export class EmployeesComponent implements OnInit {
       employee.editable = true;
     else{
       if(employee.id === 0){
-        this.employeeService.createEmployee(employee).subscribe(
+        this.appService.createEmployee(employee).subscribe(
           (res: ServiceResponse) => {
             alert("Success");
             employee.id = res.data.id;
@@ -34,12 +34,12 @@ export class EmployeesComponent implements OnInit {
           }
         );
       }else {
-        this.employeeService.updateEmployee(employee).subscribe(
+        this.appService.updateEmployee(employee).subscribe(
           (res: ServiceResponse) => {
             alert("Success");
             // this.employees = res.data;
             employee.editable = false;
-          }, 
+          },
           ( err: ServiceResponse) => {
             alert("Error in updating employee. ")
             console.log("Error, ", err);
@@ -64,7 +64,7 @@ export class EmployeesComponent implements OnInit {
     if (id === 0) {
        this.employees.splice(i, 1);
     } else {
-      this.employeeService.deleteEmployee(id).subscribe(
+      this.appService.deleteEmployee(id).subscribe(
         (res: ServiceResponse) => {
           this.employees.splice(i, 1);
           alert("Success.")
@@ -74,6 +74,5 @@ export class EmployeesComponent implements OnInit {
         }
       );
     }
-
   }
 }

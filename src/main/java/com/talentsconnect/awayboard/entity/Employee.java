@@ -1,6 +1,7 @@
 package com.talentsconnect.awayboard.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ritesh on 26/3/18.
@@ -53,18 +55,8 @@ public class Employee {
     @Column
     private Status currentStatus;
 
-    @ManyToMany(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST
-    })
-    @JoinTable(
-        name="EMP_TEAM",
-        joinColumns={ @JoinColumn(name="EMP_ID", referencedColumnName="id") },
-        inverseJoinColumns={ @JoinColumn(name="TEAM_ID", referencedColumnName="id") }
-    )
-    @JsonBackReference
-    private List<Team> teams;
+    @ManyToMany(mappedBy = "employees")
+    @JsonIgnoreProperties("employees")
+    private Set<Team> teams;
 
 }

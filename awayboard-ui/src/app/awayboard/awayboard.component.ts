@@ -5,6 +5,7 @@ import { ServiceResponse, Employee } from '../../model/models';
 import { EmployeeService } from '../../services/employee/employee.service';
 import { AppConstants } from '../app.constants';
 import { Select2OptionData } from 'ng2-select2';
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-awayboard',
@@ -18,17 +19,19 @@ export class AwayboardComponent implements OnInit {
   private employees;
   private allEmployees;
 
-  private show = false; 
+  private show = false;
   private readonly statuses = AppConstants.STATUS;
   private employeeDropdownData = new Array<Select2OptionData>();
 
+
+
   constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService,
-              private employeeService:EmployeeService){
+              private appService:EmployeeService){
   }
- 
+
   ngOnInit() {
     this.allEmployees = this.activatedRoute.snapshot.data['employees'].data;
-    this.initializeSelect2Data();    
+    this.initializeSelect2Data();
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.id = +params['teamId']; // (+) converts string 'id' to a number
       this.getTeamById(this.id);
@@ -59,12 +62,12 @@ export class AwayboardComponent implements OnInit {
   }
 
   getTeamById(id) {
+    this.show = false;
     this.teamService.getTeamById(id).subscribe(
       (res: ServiceResponse) => {
         this.team = res.data;
         this.employees = res.data.employees;
         this.show = true;
-        console.log("Awayboard Component: ");
       },
       err => {
         this.show= false;
@@ -73,8 +76,32 @@ export class AwayboardComponent implements OnInit {
     );
   }
 
+  addEmployeeToTeam(event){
+    console.log("Emp: ", event.data[0].id);
+
+    this.teamService.addEmployeeToTeam(event.data[0].id, this.team.id).subscribe(
+      (res:ServiceResponse) => {
+        this.getTeamById(this.team.id);
+      },
+      (err: HttpErrorResponse) => {
+        alert(err.error.message);
+      }
+    );
+  }
+
+  removeEmployeeFromTeam(id){
+    this.teamService.removeEmployeeFromTeam(id, this.team.id).subscribe(
+      (res:ServiceResponse) => {
+        this.getTeamById(this.team.id);
+      },
+      (err: HttpErrorResponse) => {
+        alert(err.error.message);
+      }
+    )
+  }
+
   updateEmployeeStatus(e: Employee, status){
-    this.employeeService.updateEmployeeStatus(e.id, status).subscribe(
+    this.appService.updateEmployeeStatus(e.id, status).subscribe(
       (res: ServiceResponse) => {
         let i = this.getIndex(res.data.id, this.employees);
         this.employees[i].currentStatus = status;
@@ -92,6 +119,6 @@ export class AwayboardComponent implements OnInit {
         text: emp.name
       })
     });
-    console.log("Select 2 data: ", this.employeeDropdownData);
   }
+
 }

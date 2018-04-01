@@ -1,11 +1,9 @@
 package com.talentsconnect.awayboard.controller;
 
-import com.talentsconnect.awayboard.dto.EmployeeDto;
 import com.talentsconnect.awayboard.dto.ServiceResponse;
 import com.talentsconnect.awayboard.entity.Employee;
 import com.talentsconnect.awayboard.repo.EmployeeRepo;
-import com.talentsconnect.awayboard.repo.TeamRepo;
-import com.talentsconnect.awayboard.service.EmployeeService;
+import com.talentsconnect.awayboard.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,12 +26,12 @@ import java.util.List;
 public class EmployeeController {
 
     private EmployeeRepo employeeRepo;
-    private EmployeeService employeeService;
+    private AppService appService;
 
     @Autowired
-    public EmployeeController(EmployeeRepo employeeRepo, EmployeeService employeeService) {
+    public EmployeeController(EmployeeRepo employeeRepo, AppService appService) {
         this.employeeRepo = employeeRepo;
-        this.employeeService = employeeService;
+        this.appService = appService;
     }
 
     @GetMapping("/employees")
@@ -42,35 +40,29 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/{emp-id}")
-    public ResponseEntity<ServiceResponse<Employee>> getEmployee(@RequestParam("emp-id") Long id){
+    public ResponseEntity<ServiceResponse<Employee>> getEmployee(@PathVariable("emp-id") Long id){
         return ResponseEntity.ok().body(new ServiceResponse<>(employeeRepo.findById(id)));
     }
 
     @PostMapping("/employee")
-    public ResponseEntity<ServiceResponse<List<Employee>>> postEmployee(@RequestBody EmployeeDto employee){
-        employeeService.saveEmployee(employee);
-        return ResponseEntity.ok().body(new ServiceResponse<>(employeeRepo.findAll()));
+    public ResponseEntity<ServiceResponse<Employee>> postEmployee(@RequestBody Employee employee){
+        return ResponseEntity.ok().body(new ServiceResponse<>(employeeRepo.save(employee)));
     }
 
     @PutMapping("/employee")
-    public ResponseEntity<ServiceResponse<List<Employee>>> updateEmployee(@RequestBody EmployeeDto employeeDto){
-        employeeService.updateEmployee(employeeDto);
-        return ResponseEntity.ok().body(new ServiceResponse<List<Employee>>(employeeRepo.findAll()));
+    public ResponseEntity<ServiceResponse<Employee>> updateEmployee(@RequestBody Employee employee){
+        return ResponseEntity.ok().body(new ServiceResponse<>(employeeRepo.save(employee)));
     }
     @PutMapping("/employee/{employee-id}/status/{status}")
     public ResponseEntity<ServiceResponse<Employee>> updateEmployeeStatus(@PathVariable("employee-id") Long employeeId,
                                                                           @PathVariable("status") Employee.Status status){
-        return ResponseEntity.ok().body(new ServiceResponse<>(employeeService.updateEmployeeStatus(employeeId, status)));
+        return ResponseEntity.ok().body(new ServiceResponse<>(appService.updateEmployeeStatus(employeeId, status)));
     }
 
     @DeleteMapping("/employee/{employee-id}")
-    public ResponseEntity<ServiceResponse<Void>> deleteMapping(@PathVariable("employee-id") Long id){
-        employeeRepo.delete(id);
+    public ResponseEntity<ServiceResponse<Void>> deleteEmployee(@PathVariable("employee-id") Long id){
+        appService.deleteEmployee(id);
         return ResponseEntity.ok().body(new ServiceResponse<>(null));
     }
-     /*@PutMapping("/employee/{employee-id}")
-    public ResponseEntity<ServiceResponse<Employee>> updateEmployee(@RequestBody EmployeeDto employee){
-        return null;
-    }*/
 
 }

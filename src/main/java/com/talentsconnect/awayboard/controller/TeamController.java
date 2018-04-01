@@ -1,14 +1,10 @@
 package com.talentsconnect.awayboard.controller;
 
-import com.talentsconnect.awayboard.dto.EmployeeDto;
 import com.talentsconnect.awayboard.dto.ServiceResponse;
-import com.talentsconnect.awayboard.dto.TeamDto;
 import com.talentsconnect.awayboard.entity.Employee;
 import com.talentsconnect.awayboard.entity.Team;
-import com.talentsconnect.awayboard.repo.EmployeeRepo;
 import com.talentsconnect.awayboard.repo.TeamRepo;
-import com.talentsconnect.awayboard.service.EmployeeService;
-import com.talentsconnect.awayboard.service.TeamService;
+import com.talentsconnect.awayboard.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,14 +26,12 @@ import java.util.List;
 public class TeamController {
 
     private TeamRepo teamRepo;
-    private EmployeeService employeeService;
-    private TeamService teamService;
+    private AppService appService;
 
     @Autowired
-    public TeamController(TeamRepo teamRepo, EmployeeService employeeService, TeamService teamService) {
+    public TeamController(TeamRepo teamRepo, AppService appService) {
         this.teamRepo = teamRepo;
-        this.employeeService = employeeService;
-        this.teamService = teamService;
+        this.appService = appService;
     }
 
     @GetMapping("/teams")
@@ -52,32 +45,31 @@ public class TeamController {
     }
 
     @PutMapping("/team")
-    public ResponseEntity<ServiceResponse<List<Team>>> updateTeamById(@RequestBody Team team){
-        teamRepo.save(team);
-        return ResponseEntity.ok().body(new ServiceResponse<>(teamRepo.findAll()));
+    public ResponseEntity<ServiceResponse<Team>> updateTeamById(@RequestBody Team team){
+        return ResponseEntity.ok().body(new ServiceResponse<>(teamRepo.save(team)));
+    }
+
+    @PostMapping("/team")
+    public ResponseEntity<ServiceResponse<Team>> postTeam(@RequestBody Team team){
+        return ResponseEntity.ok().body(new ServiceResponse<>(teamRepo.save(team)));
     }
 
     @DeleteMapping("/team/{team-id}")
-    public ResponseEntity<ServiceResponse<List<Team>>> deleteTeam(@PathVariable("team-id") Long id){
-        teamRepo.delete(id);
-        return ResponseEntity.ok().body(new ServiceResponse<>(teamRepo.findAll()));
-    }
-    @PostMapping("/team")
-    public ResponseEntity<ServiceResponse<List<Team>>> postTeam(@RequestBody Team team){
-        teamRepo.save(team);
-        return ResponseEntity.ok().body(new ServiceResponse<>(teamRepo.findAll()));
+    public ResponseEntity<ServiceResponse<Team>> deleteTeam(@PathVariable("team-id") Long id){
+        appService.deleteTeam(id);
+        return ResponseEntity.ok().body(new ServiceResponse<>(null));
     }
 
-    @PostMapping("/team/{team-id}/employee/{employee-id}")
-    public ResponseEntity<ServiceResponse<Team>> addEmployeeToTeam(@RequestParam("team-id") Long teamId,
-                                  @RequestParam("employee-id") Long employeeId){
-        return ResponseEntity.ok().body(new ServiceResponse<>(employeeService.postEmployeeToTeam(teamId, employeeId)));
+    @PutMapping("/team/{team-id}/employee/{employee-id}")
+    public ResponseEntity<ServiceResponse<Team>> addEmployeeToTeam(@PathVariable("team-id") Long teamId,
+                                                                   @PathVariable ("employee-id") Long employeeId){
+        return ResponseEntity.ok().body(new ServiceResponse<>(appService.putEmployeeToTeam(teamId, employeeId)));
     }
 
     @DeleteMapping("/team/{team-id}/employee/{employee-id}")
-    public ResponseEntity<ServiceResponse<Team>> deleteEmployeeFromTeam(@RequestParam("team-id") Long teamId,
-                                       @RequestParam("employee-id") Long employeeId){
-        return ResponseEntity.ok().body(new ServiceResponse<>(employeeService.deleteEmployeeFromTeam(teamId, employeeId)));
+    public ResponseEntity<ServiceResponse<Team>> removeEmployeeFromTeam(@PathVariable("team-id") Long teamId,
+                                                                        @PathVariable("employee-id") Long employeeId){
+        return ResponseEntity.ok().body(new ServiceResponse<>(appService.deleteEmployeeFromTeam(teamId, employeeId)));
     }
 
 

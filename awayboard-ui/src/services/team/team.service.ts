@@ -30,4 +30,14 @@ export class TeamService {
     return this.http.delete(AppConstants.API_BASE + AppConstants.API_TEAM + "/" + id);
   }
 
+  addEmployeeToTeam(empId, teamId){
+    return this.http.put(AppConstants.API_BASE + AppConstants.API_TEAM + "/" 
+          + teamId + AppConstants.API_EMPLOYEE + "/" + empId, null)
+  }
+
+  removeEmployeeFromTeam(empId, teamId){
+    return this.http.delete(AppConstants.API_BASE + AppConstants.API_TEAM + "/" 
+          + teamId + AppConstants.API_EMPLOYEE + "/" + empId);
+  }
+
 }

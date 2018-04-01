@@ -1,7 +1,9 @@
 <div *ngIf="show">
   <h3>The Awaybord | Team: {{team.name}}</h3>
-  
-  <p>Select Employee to add: <select2 [data]="employeeDropdownData" [cssImport]=true></select2></p>
+
+  <p>Select Employee to add:
+    <select2 [data]="employeeDropdownData" [cssImport]=true (valueChanged)="addEmployeeToTeam($event)"></select2>
+  </p>
   <hr>
 
   <div class="row">
@@ -11,7 +13,12 @@
         (onDrop)="onOffice($event)">
         <div class="card-header card-inverse card-primary">Office</div>
         <div class="card-block scroll-list" *ngFor="let e of employees">
-          <li *ngIf="e.currentStatus==statuses[0]" class="list-group-item" [draggable] [dragData]="e">{{e.name}}</li>
+          <li *ngIf="e.currentStatus==statuses[0]" class="list-group-item" [draggable] [dragData]="e">
+            {{e.name}}
+            <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)">
+                <span class="fa fa-close"></span>
+            </button>
+          </li>
         </div>
       </div>
     </div>

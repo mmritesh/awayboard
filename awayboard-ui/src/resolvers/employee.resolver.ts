@@ -6,10 +6,10 @@ import { ServiceResponse } from '../model/models';
 
 @Injectable()
 export class EmployeeResolver implements Resolve<any> {
-    constructor(private employeeService : EmployeeService) {}
+    constructor(private appService : EmployeeService) {}
 
     resolve(route: ActivatedRouteSnapshot ){
         console.log("Employee Resolver");
-        return this.employeeService.getAllEmployees();
+        return this.appService.getAllEmployees();
     }
 }

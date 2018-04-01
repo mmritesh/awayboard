@@ -23,30 +23,6 @@ public class CustomException extends RuntimeException{
         super(errorDescription, cause);
         setFields("default", errorDescription);
     }
-    public CustomException(String code, String errorDescription, Throwable cause) {
-        super(errorDescription, cause);
-        setFields(code, errorDescription);
-    }
-
-    public CustomException(ErrorCode errorCode) {
-        super(errorCode.message);
-        setFields(errorCode.code, errorCode.message);
-    }
-
-    public CustomException(ErrorCode errorCode, Throwable cause) {
-        super(errorCode.message, cause);
-        setFields(errorCode.code, errorCode.message);
-    }
-
-    public CustomException(ErrorCode errorCode, String appendMessage) {
-        super(errorCode.message + "." + appendMessage);
-        setFields(errorCode.code, errorCode.message + "." + appendMessage);
-    }
-
-    public CustomException(ErrorCode errorCode, Throwable cause, String appendMessage) {
-        super(errorCode.message + "." + appendMessage, cause);
-        setFields(errorCode.code, errorCode.message + "." + appendMessage);
-    }
 
     private void setFields(String code, String description){
         this.code = code;

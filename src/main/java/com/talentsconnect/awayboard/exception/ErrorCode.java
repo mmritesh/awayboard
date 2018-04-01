@@ -7,7 +7,8 @@ public enum ErrorCode {
     EMPLOYEE_ALREADY_EXIT("A003", "Employee Already Exist"),
     INVALID_EMPLOYEE_ID("A004", "Employee id is not valid."),
     INVALID_TEAM_ID("A005", "Team id is not valid."),
-    TEAM_ALREADY_EXIST("A006","Team already exist.");
+    TEAM_ALREADY_EXIST("A006","Team already exist."),
+    UNABLE_FIND_ONE_OF_THE_EMPLOYEES("A007","Unable to find one of the employees");
 
     String code;
     String message;
