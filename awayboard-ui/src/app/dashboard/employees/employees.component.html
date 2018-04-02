@@ -31,7 +31,7 @@
                 <span *ngIf="e.editable" class="fa fa-save"></span>
               </button>
             </div>
-            <div [attr.id]="e.id" class="collapse"  [ngClass]="{'show': e.editable}"  data-parent="#employees">
+            <div [attr.id]="e.id" class="collapse" [ngClass]="{'show': e.editable}" data-parent="#employees">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-2">
@@ -39,11 +39,32 @@
                   </div>
                   <div class="col-md-5">
                     <p class="mb-1">Name: &nbsp;<input class="form-control" placeholder="Enter Name" [readonly]="!e.editable" [(ngModel)]="e.name">                      </p>
-                    <p class="mb-1">Status: <input class="form-control" placeholder="Enter Status" [readonly]="!e.editable" [(ngModel)]="e.currentStatus">                      </p>
+                    <p class="mb-1">Status:
+                      <select [disabled]="!e.editable" class="form-control" [(ngModel)]="e.currentStatus">
+                        <option [value]="" disabled>Select</option>
+                        <option *ngFor="let s of statuses; let i = index" [value]="s">{{statusToRead[s]}}</option>                                
+                      </select>
+                    </p>
                   </div>
                   <div class="col-md-5">
                     <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!e.editable" [(ngModel)]="e.imageUrl">                      </p>
-                    <p class="mb-1">Teams: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" placeholder="TBD" [readonly]="!e.editable">                      </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-2">
+                    <span>Teams: </span>
+                    <label for="teams" style="font-size:10px">Select team to add:</label>
+                    <select class="form-control" id="teams" [(ngModel)]="selectedTeam" (ngModelChange)="addTeamToEmployee($event, e)">
+                      <option [value]="-1" disabled>Select</option>
+                      <option *ngFor="let t of teams; let i = index" [value]="i">{{t.name}}</option>                                
+                    </select>
+                  </div>
+                  <div class="col-md-10">
+                    <ul>
+                      <li *ngFor="let t of e.teams; let j = index"><span class="badge badge-secondary">{{t.name}} <span class="fa fa-close cursor-pointer" (click)="removeTeamFromEmployee(e.id,i, t.id, j)"></span></span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>

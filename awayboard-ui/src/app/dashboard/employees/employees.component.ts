@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EmployeeService } from '../../../services/employee/employee.service';
 import { Employee, ServiceResponse } from '../../../model/models';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UtilService } from '../../../services/util/util.service';
+import { TeamService } from "../../../services/team/team.service";
+import { AppConstants } from '../../app.constants';
 
 @Component({
   selector: 'app-employees',
@@ -11,8 +15,14 @@ export class EmployeesComponent implements OnInit {
 
   @Input()
   private employees;
+  @Input()
+  private teams;
+  private selectedTeam = -1;
 
-  constructor(private appService: EmployeeService) { }
+  private readonly statuses = AppConstants.STATUS;
+  private readonly statusToRead = AppConstants.STATUS_TO_DISPLAY;
+
+  constructor(private appService: EmployeeService, private teamService: TeamService) { }
 
   ngOnInit() {
   }
@@ -44,7 +54,7 @@ export class EmployeesComponent implements OnInit {
             alert("Error in updating employee. ")
             console.log("Error, ", err);
           }
-        )
+        );
       }
     }
   }
@@ -75,4 +85,53 @@ export class EmployeesComponent implements OnInit {
       );
     }
   }
+
+  removeTeamFromEmployee(empId, i, teamId, j){
+    this.appService.removeTeamFromEmployee(empId, teamId).subscribe(
+      (res:ServiceResponse) => {
+        this.employees[i].teams.splice(j, 1);
+        alert("Removed team from employee.");        
+      },
+      (err: HttpErrorResponse) => {
+        alert(err.error.message);
+      }
+    )
+  }
+
+  addTeamToEmployee(teamIndex, employee){
+    //employee.teams.push(team);
+    //this.createOrUpdateEmployee(employee);
+    console.log("Hii: ", teamIndex, employee);
+    let i = UtilService.getIndex(this.teams[teamIndex].id, employee.teams);
+    if(i == -1){
+      this.teamService.addEmployeeToTeam(employee.id, this.teams[teamIndex].id).subscribe(
+      (res:ServiceResponse) => {
+        alert("Employee added to team.")
+        window.location.reload(true);
+      },
+      (err: HttpErrorResponse) => {
+        alert(err.error.message);
+      }
+    );
+    }else{
+      alert("Employee is already in the selected team.");
+      this.selectedTeam = -1;
+    }
+
+    
+  }
+
+  onChange(event){
+    this.selectedTeam = -1;
+  }
+  // getAllEmployees(){
+  //   this.appService.getAllEmployees().subscribe(
+  //     (res: ServiceResponse) => {
+  //       this.employees = res.data;
+  //     },
+  //     err => {
+  //       alert("Error in getting employees.");
+  //     }
+  //   )
+  // }
 }

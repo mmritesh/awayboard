@@ -6,6 +6,7 @@ import { EmployeeService } from '../../services/employee/employee.service';
 import { AppConstants } from '../app.constants';
 import { Select2OptionData } from 'ng2-select2';
 import { HttpErrorResponse } from "@angular/common/http";
+import { UtilService } from '../../services/util/util.service';
 
 @Component({
   selector: 'app-awayboard',
@@ -54,13 +55,6 @@ export class AwayboardComponent implements OnInit {
     this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[2]);
   }
 
-  getIndex(id: any, list: Array<any>){
-    let index = list.map(function (e) {
-      return e.id
-    }).indexOf(id);
-    return index;
-  }
-
   getTeamById(id) {
     this.show = false;
     this.teamService.getTeamById(id).subscribe(
@@ -103,7 +97,7 @@ export class AwayboardComponent implements OnInit {
   updateEmployeeStatus(e: Employee, status){
     this.appService.updateEmployeeStatus(e.id, status).subscribe(
       (res: ServiceResponse) => {
-        let i = this.getIndex(res.data.id, this.employees);
+        let i = UtilService.getIndex(res.data.id, this.employees);
         this.employees[i].currentStatus = status;
       },
       err => {

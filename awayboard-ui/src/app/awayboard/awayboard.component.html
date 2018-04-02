@@ -28,7 +28,12 @@
         (onDrop)="onHomeOffice($event)">
         <div class="card-header card-inverse card-primary">Home Office</div>
         <div class="card-block scroll-list" *ngFor="let e of employees">
-          <li *ngIf="e.currentStatus==statuses[1]" class="list-group-item" [draggable] [dragData]="e">{{e.name}}</li>
+          <li *ngIf="e.currentStatus==statuses[1]" class="list-group-item" [draggable] [dragData]="e">
+            {{e.name}}
+            <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)">
+                <span class="fa fa-close"></span>
+            </button>
+          </li>
         </div>
       </div>
     </div>
@@ -38,7 +43,12 @@
         (onDrop)="onAway($event)">
         <div class="card-header card-inverse card-primary">Away</div>
         <div class="card-block scroll-list" *ngFor="let e of employees">
-          <li *ngIf="e.currentStatus==statuses[2]" class="list-group-item" [draggable] [dragData]="e">{{e.name}}</li>
+          <li *ngIf="e.currentStatus==statuses[2]" class="list-group-item" [draggable] [dragData]="e">
+            {{e.name}}
+            <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)">
+                <span class="fa fa-close"></span>
+            </button>
+          </li>
         </div>
       </div>
     </div>

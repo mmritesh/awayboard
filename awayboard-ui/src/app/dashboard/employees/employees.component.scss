@@ -1,0 +1,16 @@
+.badge{
+        padding: 0.5em .4em;
+}
+
+ul{
+    overflow-x: hidden;
+    white-space: nowrap;
+    height: 3em;
+    width: 100%;
+
+    li{
+        display:inline; 
+        margin-right: 5px;
+    }
+}
+

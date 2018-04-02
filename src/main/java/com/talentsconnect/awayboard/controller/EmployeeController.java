@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -62,6 +61,13 @@ public class EmployeeController {
     @DeleteMapping("/employee/{employee-id}")
     public ResponseEntity<ServiceResponse<Void>> deleteEmployee(@PathVariable("employee-id") Long id){
         appService.deleteEmployee(id);
+        return ResponseEntity.ok().body(new ServiceResponse<>(null));
+    }
+
+    @DeleteMapping("/employee/{employee-id}/team/{team-id}")
+    public ResponseEntity<ServiceResponse<Void>> deleteTeamFromEmployee(@PathVariable("employee-id") Long employeeId,
+                                                                        @PathVariable("team-id") Long teamId){
+        appService.removeTeamFromEmployee(employeeId, teamId);
         return ResponseEntity.ok().body(new ServiceResponse<>(null));
     }
 

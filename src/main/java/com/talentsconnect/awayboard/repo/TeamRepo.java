@@ -16,4 +16,8 @@ public interface TeamRepo extends JpaRepository<Team, Long> {
     @Modifying
     @Query(value = "delete from emp_team where team_id = ?1", nativeQuery = true)
     int deleteEmployeeTeamRelation(Long id);
+
+    @Modifying
+    @Query(value = "delete from emp_team where emp_id=?1 && team_id = ?2", nativeQuery = true)
+    int removeTeamFromEmployee(Long empId, Long teamId);
 }

@@ -63,4 +63,10 @@ public class AppServiceImpl implements AppService {
         teamRepo.deleteEmployeeTeamRelation(id);
         teamRepo.delete(id);
     }
+
+    @Transactional
+    @Override
+    public int removeTeamFromEmployee(Long empId, Long teamId){
+        return teamRepo.removeTeamFromEmployee(empId, teamId);
+    }
 }

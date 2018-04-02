@@ -27,4 +27,9 @@ export class EmployeeService {
   updateEmployeeStatus(id, status){
     return this.http.put(AppConstants.API_BASE + AppConstants.API_EMPLOYEE + "/" + id + AppConstants.API_STATUS + "/" + status, null);
   }
+
+  removeTeamFromEmployee(empId, teamId){
+    return this.http.delete(AppConstants.API_BASE + AppConstants.API_EMPLOYEE + "/" + empId + 
+        AppConstants.API_TEAM + "/" + teamId);
+  }
 }

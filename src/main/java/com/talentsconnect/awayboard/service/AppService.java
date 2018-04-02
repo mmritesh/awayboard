@@ -13,4 +13,5 @@ public interface AppService {
     Employee updateEmployeeStatus(Long employeeId, Employee.Status status);
     void deleteEmployee(Long id);
     void deleteTeam(Long id);
+    int removeTeamFromEmployee(Long empId, Long teamId);
 }

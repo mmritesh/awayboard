@@ -71,7 +71,7 @@ export class TeamsComponent implements OnInit {
       (res: ServiceResponse) => {
         alert("Success")
         console.log("delete: ", res);
-        this.teams.splice(i, 1);
+        window.location.reload(true);
       },
       err => {
         alert("Error in deleting team.");
