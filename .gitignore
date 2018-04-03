@@ -1,3 +1,4 @@
 awayboard-ui/node_modules
 .idea/
 src/main/resources/static
+temp/
