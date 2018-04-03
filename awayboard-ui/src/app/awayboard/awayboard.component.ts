@@ -19,6 +19,7 @@ export class AwayboardComponent implements OnInit {
   private team: any;
   private employees;
   private allEmployees;
+  private selection = -1;
 
   private show = false;
   private readonly statuses = AppConstants.STATUS;
@@ -27,7 +28,7 @@ export class AwayboardComponent implements OnInit {
 
 
   constructor(private activatedRoute: ActivatedRoute, private teamService: TeamService,
-              private appService:EmployeeService){
+    private appService: EmployeeService) {
   }
 
   ngOnInit() {
@@ -43,15 +44,15 @@ export class AwayboardComponent implements OnInit {
     this.sub.unsubscribe();
   }
 
-  onOffice(e: any){
+  onOffice(e: any) {
     this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[0]);
   }
 
-  onHomeOffice(e: any){
+  onHomeOffice(e: any) {
     this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[1]);
   }
 
-  onAway(e: any){
+  onAway(e: any) {
     this.updateEmployeeStatus(e.dragData, AppConstants.STATUS[2]);
   }
 
@@ -64,28 +65,33 @@ export class AwayboardComponent implements OnInit {
         this.show = true;
       },
       err => {
-        this.show= false;
+        this.show = false;
         alert("Error getting teams.");
       }
     );
   }
 
-  addEmployeeToTeam(event){
-    console.log("Emp: ", event.data[0].id);
+  addEmployeeToTeam(id) {
+    let i = UtilService.getIndex(parseInt(id), this.team.employees);
+    if (i == -1) {
+      this.teamService.addEmployeeToTeam(id, this.team.id).subscribe(
+        (res: ServiceResponse) => {
+          this.getTeamById(this.team.id);
+          this.selection = -1;
+        },
+        (err: HttpErrorResponse) => {
+          alert(err.error.message);
+        }
+      );
+    }else{
+      alert("Employee already exist to the team.");
+    }
 
-    this.teamService.addEmployeeToTeam(event.data[0].id, this.team.id).subscribe(
-      (res:ServiceResponse) => {
-        this.getTeamById(this.team.id);
-      },
-      (err: HttpErrorResponse) => {
-        alert(err.error.message);
-      }
-    );
   }
 
-  removeEmployeeFromTeam(id){
+  removeEmployeeFromTeam(id) {
     this.teamService.removeEmployeeFromTeam(id, this.team.id).subscribe(
-      (res:ServiceResponse) => {
+      (res: ServiceResponse) => {
         this.getTeamById(this.team.id);
       },
       (err: HttpErrorResponse) => {
@@ -94,7 +100,7 @@ export class AwayboardComponent implements OnInit {
     )
   }
 
-  updateEmployeeStatus(e: Employee, status){
+  updateEmployeeStatus(e: Employee, status) {
     this.appService.updateEmployeeStatus(e.id, status).subscribe(
       (res: ServiceResponse) => {
         let i = UtilService.getIndex(res.data.id, this.employees);
@@ -106,7 +112,7 @@ export class AwayboardComponent implements OnInit {
     );
   }
 
-  initializeSelect2Data(){
+  initializeSelect2Data() {
     this.allEmployees.forEach(emp => {
       this.employeeDropdownData.push({
         id: emp.id,

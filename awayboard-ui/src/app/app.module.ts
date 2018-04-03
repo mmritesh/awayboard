@@ -16,6 +16,7 @@ import { AwayboardComponent } from './awayboard/awayboard.component';
 import { TeamByIdResolver } from '../resolvers/team-by-id.resolver';
 import { Ng2DragDropModule } from 'ng2-drag-drop';
 import { Select2Module } from "ng2-select2/ng2-select2";
+import { FilerByStatusPipe } from '../pipes/filer-by-status.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { Select2Module } from "ng2-select2/ng2-select2";
     EmployeesComponent,
     TeamsComponent,
     DashboardComponent,
-    AwayboardComponent
+    AwayboardComponent,
+    FilerByStatusPipe
   ],
   imports: [
     BrowserModule,

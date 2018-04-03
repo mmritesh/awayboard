@@ -2,7 +2,7 @@
   <div class="card-header">
     <a class="card-link" data-toggle="collapse" href="#employeeContainer">
         Employees
-      </a>
+    </a>
   </div>
   <div id="employeeContainer" class="collapse" data-parent="#accordion">
 
@@ -19,56 +19,61 @@
           </div>
 
           <div class="card mb-1" *ngFor="let e of employees; let i = index">
-            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" [attr.href]="'#' + e.id">
+            <form #employeeForm="ngForm">
+              <div class="card-header">
+                <a class="card-link" data-toggle="collapse" [attr.href]="'#' + e.id">
                 {{e.name}}
               </a>
-              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete employee." (click)="deleteEmployee(e.id, i)">
+                <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete employee." (click)="deleteEmployee(e.id, i)">
                 <span class="fa fa-trash-o"></span>
               </button>
-              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="createOrUpdateEmployee(e)">
+                <button type="submit" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" 
+                        [disabled]="!employeeForm.form.valid"
+                        (click)="createOrUpdateEmployee(e)">
                 <span *ngIf="!e.editable" class="fa fa-pencil"></span>
                 <span *ngIf="e.editable" class="fa fa-save"></span>
               </button>
-            </div>
-            <div [attr.id]="e.id" class="collapse" [ngClass]="{'show': e.editable}" data-parent="#employees">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-2">
-                    <img class="thumbnail-pic" [src]="e.imageUrl">
+              </div>
+              <div [attr.id]="e.id" class="collapse" [ngClass]="{'show': e.editable}" data-parent="#employees">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img class="thumbnail-pic" [src]="e.imageUrl">
+                    </div>
+                    <div class="col-md-5">
+                      <p class="mb-1">Name: <span *ngIf="!(name.valid || name.pristine)" class="">*</span>
+                        <input class="form-control" placeholder="Enter Name" [readonly]="!e.editable" [(ngModel)]="e.name" name="name" #name="ngModel" required></p>
+                      <p class="mb-1">Status:<span *ngIf="!(status.valid || status.pristine)" class="">*</span>
+                        <select [disabled]="!e.editable" class="form-control" [(ngModel)]="e.currentStatus" name="status" #status="ngModel" required>
+                          <option [value]="" disabled>Select</option>
+                          <option *ngFor="let s of statuses; let i = index" [value]="s">{{statusToRead[s]}}</option>                                
+                        </select>
+                      </p>
+                    </div>
+                    <div class="col-md-5">
+                      <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!e.editable" [(ngModel)]="e.imageUrl" name="imgUrl"></p>
+                    </div>
                   </div>
-                  <div class="col-md-5">
-                    <p class="mb-1">Name: &nbsp;<input class="form-control" placeholder="Enter Name" [readonly]="!e.editable" [(ngModel)]="e.name">                      </p>
-                    <p class="mb-1">Status:
-                      <select [disabled]="!e.editable" class="form-control" [(ngModel)]="e.currentStatus">
-                        <option [value]="" disabled>Select</option>
-                        <option *ngFor="let s of statuses; let i = index" [value]="s">{{statusToRead[s]}}</option>                                
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <span>Teams: </span><br>
+                      <span for="teams" style="font-size:10px">Select team to add:</span>
+                      <select class="form-control" id="teams" [(ngModel)]="selectedTeam" (ngModelChange)="addTeamToEmployee($event, e)" name="selTeam">
+                        <option [value]="-1" disabled>Select</option>
+                        <option *ngFor="let t of teams; let i = index" [value]="i">{{t.name}}</option>                                
                       </select>
-                    </p>
-                  </div>
-                  <div class="col-md-5">
-                    <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!e.editable" [(ngModel)]="e.imageUrl">                      </p>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-md-2">
-                    <span>Teams: </span>
-                    <label for="teams" style="font-size:10px">Select team to add:</label>
-                    <select class="form-control" id="teams" [(ngModel)]="selectedTeam" (ngModelChange)="addTeamToEmployee($event, e)">
-                      <option [value]="-1" disabled>Select</option>
-                      <option *ngFor="let t of teams; let i = index" [value]="i">{{t.name}}</option>                                
-                    </select>
-                  </div>
-                  <div class="col-md-10">
-                    <ul>
-                      <li *ngFor="let t of e.teams; let j = index"><span class="badge badge-secondary">{{t.name}} <span class="fa fa-close cursor-pointer" (click)="removeTeamFromEmployee(e.id,i, t.id, j)"></span></span>
-                      </li>
-                    </ul>
+                    </div>
+                    <div class="col-md-10">
+                      <ul>
+                        <li *ngFor="let t of e.teams; let j = index"><span class="badge badge-secondary">{{t.name}} <span class="fa fa-close cursor-pointer" (click)="removeTeamFromEmployee(e.id,i, t.id, j)"></span></span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

@@ -1,19 +1,18 @@
 <div class="card mb-1">
-  <div class="card-header" >
+  <div class="card-header">
     <a class="card-link" data-toggle="collapse" href="#teamContainer">
       Teams
     </a>
   </div>
 
-  <div id="teamContainer" class="collapse show"  data-parent="#accordion">
+  <div id="teamContainer" class="collapse show" data-parent="#accordion">
     <div class="card-body">
 
       <div id="teams">
         <div class="card-body">
           <div class="row">
             <div class="col-md-12">
-              <button type="button" class="btn btn-outline-info btn-sm  mb-2" title="Add new team."
-                      (click)="addNewTeam()">
+              <button type="button" class="btn btn-outline-info btn-sm  mb-2" title="Add new team." (click)="addNewTeam()">
                 <span class="fa fa-plus"></span>
               </button>
               <span>Add new team</span>
@@ -21,39 +20,46 @@
           </div>
 
           <div class="card mb-1" *ngFor="let t of teams; let i = index;">
-            <div class="card-header">
-              <a class="card-link" data-toggle="collapse" [attr.href]="'#team_' + t.id">
+            <form #teamForm="ngForm">
+              <div class="card-header">
+                <a class="card-link" data-toggle="collapse" [attr.href]="'#team_' + t.id">
                 {{t.name}}
               </a>
-              <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteTeam(t.id, i)">
+                <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteTeam(t.id, i)">
                 <span class="fa fa-trash-o"></span>
               </button>
-             
-              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" (click)="saveOrUpdate(t)">
+
+              <button type="submit" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" 
+                      [disabled]="!teamForm.form.valid"
+                      (click)="saveOrUpdate(t)">
                 <span *ngIf="!t.editable" class="fa fa-pencil"></span>
                 <span *ngIf="t.editable" class="fa fa-save"></span>
               </button>
-            
-              <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard." (click)="viewAwayboard(t.id)">
+
+                <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard." (click)="viewAwayboard(t.id)">
                 <span class="fa fa-eye"></span>
               </button>
-            </div>
-            <div [attr.id]="'team_' + t.id" class="collapse" [ngClass]="{'show': t.editable}" data-parent="#teams">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-2">
-                    <img *ngIf="t.imageUrl!=''" class="thumbnail-pic" [src]="t.imageUrl">
-                    <img *ngIf="t.imageUrl==''" class="thumbnail-pic" src="assets/images/avatar.png">
-                  </div>
-                  <div class="col-md-5">
-                    <p class="mb-1">Name: &nbsp;<input class="form-control" placeholder="Enter Name" [readonly]="!t.editable" [(ngModel)]="t.name">                          </p>
-                  </div>
-                  <div class="col-md-5">
-                    <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!t.editable" [(ngModel)]="t.imageUrl">                          </p>
+              </div>
+              <div [attr.id]="'team_' + t.id" class="collapse" [ngClass]="{'show': t.editable}" data-parent="#teams">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img *ngIf="t.imageUrl!=''" class="thumbnail-pic" [src]="t.imageUrl">
+                      <img *ngIf="t.imageUrl==''" class="thumbnail-pic" src="assets/images/avatar.png">
+                    </div>
+                    <div class="col-md-5">
+                      <span class="mb-1">Name:</span>
+                        <span *ngIf="!(name.valid || name.pristine)" class="">*</span>
+                        <input type="text" id="name" class="form-control" placeholder="Enter Name" [readonly]="!t.editable"
+                          [(ngModel)]="t.name" name="name" #name="ngModel" required>
+                    </div>
+                    <div class="col-md-5">
+                      <p class="mb-1">Image Url: <input class="form-control" placeholder="Enter Image Url" [readonly]="!t.editable" [(ngModel)]="t.imageUrl" name="imgUrl">                        </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

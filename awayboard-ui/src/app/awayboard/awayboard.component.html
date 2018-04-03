@@ -1,12 +1,55 @@
 <div *ngIf="show">
-  <h3>The Awaybord | Team: {{team.name}}</h3>
+  <h3 class="header">The Awaybord | {{team.name}}</h3>
 
   <p>Select Employee to add:
-    <select2 [data]="employeeDropdownData" [cssImport]=true (valueChanged)="addEmployeeToTeam($event)"></select2>
+    <!--<select2 [data]="employeeDropdownData" [cssImport]=true (valueChanged)="addEmployeeToTeam($event)"></select2>-->
+    <select class="form-control select-employee"[(ngModel)]="selection" (ngModelChange)="addEmployeeToTeam($event)">
+      <option [value]="-1" disabled>Select</option>
+      <option *ngFor="let e of allEmployees; let i = index" [value]="e.id">{{e.name}}</option>                                
+    </select>
   </p>
   <hr>
-
-  <div class="row">
+  <header class="header">
+    <h5>Office</h5>
+    <h5>Homeoffice</h5>
+    <h5>Away</h5>
+  </header>
+  <section class="columns">
+    <div droppable class="column" (onDrop)="onOffice($event)" data-col="office">
+      <article [draggable] *ngFor="let e of employees | filerByStatus: statuses[0]" class="tile" [draggable] [dragData]="e">
+        <div class="tile__content">
+          <img class="tile__image" [src]="e.imageUrl">
+        </div>
+        <header class="tile__header">{{e.name}}</header>
+        <button class="tile__remove js-remove" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)"> 
+          <span class="fa fa-close"></span> 
+        </button>
+      </article>
+    </div>
+    <div droppable class="column" (onDrop)="onHomeOffice($event)" data-col="homeoffice">
+      <article [draggable] *ngFor="let e of employees | filerByStatus: statuses[1]" class="tile" [draggable] [dragData]="e">
+        <div class="tile__content">
+          <img class="tile__image" [src]="e.imageUrl">
+        </div>
+        <header class="tile__header">{{e.name}}</header>
+        <button class="tile__remove js-remove" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)"> 
+          <span class="fa fa-close"></span> 
+        </button>
+      </article>
+    </div>
+    <div droppable class="column" (onDrop)="onAway($event)" data-col="away">
+      <article [draggable] *ngFor="let e of employees | filerByStatus: statuses[2]" class="tile" [draggable] [dragData]="e">
+        <div class="tile__content">
+          <img class="tile__image" [src]="e.imageUrl">
+        </div>
+        <header class="tile__header">{{e.name}}</header>
+        <button class="tile__remove js-remove" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)"> 
+          <span class="fa fa-close"></span> 
+        </button>
+      </article>
+    </div>
+  </section>
+  <!--<div class="row">
 
     <div class="col-md-4">
       <div droppable class="card card-outline-primary mb-3" [dragOverClass]="'drag-target-border-green'" [dragHintClass]="'drag-hint'"
@@ -15,7 +58,7 @@
         <div class="card-block scroll-list" *ngFor="let e of employees">
           <li *ngIf="e.currentStatus==statuses[0]" class="list-group-item" [draggable] [dragData]="e">
             {{e.name}}
-            <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to remove from team." (click)="removeEmployeeFromTeam(e.id)">
+            <button type="button" class="btn btn-outline-info btn-sm pull-right" >
                 <span class="fa fa-close"></span>
             </button>
           </li>
@@ -53,5 +96,5 @@
       </div>
     </div>
 
-  </div>
+  </div>-->
 </div>
