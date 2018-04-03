@@ -23,8 +23,8 @@
             <form #teamForm="ngForm">
               <div class="card-header">
                 <a class="card-link" data-toggle="collapse" [attr.href]="'#team_' + t.id">
-                {{t.name}}
-              </a>
+                  {{t.name}}
+                </a>
                 <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete team." (click)="deleteTeam(t.id, i)">
                 <span class="fa fa-trash-o"></span>
               </button>
@@ -36,9 +36,11 @@
                 <span *ngIf="t.editable" class="fa fa-save"></span>
               </button>
 
-                <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard." (click)="viewAwayboard(t.id)">
-                <span class="fa fa-eye"></span>
-              </button>
+                <button type="button" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to view awayboard." 
+                    [disabled]="t.id==0"
+                    (click)="viewAwayboard(t.id)">
+                  <span class="fa fa-eye"></span>
+                </button>
               </div>
               <div [attr.id]="'team_' + t.id" class="collapse" [ngClass]="{'show': t.editable}" data-parent="#teams">
                 <div class="card-body">

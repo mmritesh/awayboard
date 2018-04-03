@@ -23,16 +23,16 @@
               <div class="card-header">
                 <a class="card-link" data-toggle="collapse" [attr.href]="'#' + e.id">
                 {{e.name}}
-              </a>
-                <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete employee." (click)="deleteEmployee(e.id, i)">
-                <span class="fa fa-trash-o"></span>
-              </button>
-                <button type="submit" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" 
-                        [disabled]="!employeeForm.form.valid"
-                        (click)="createOrUpdateEmployee(e)">
-                <span *ngIf="!e.editable" class="fa fa-pencil"></span>
-                <span *ngIf="e.editable" class="fa fa-save"></span>
-              </button>
+                </a>
+                  <button type="button" class="btn btn-outline-info btn-sm pull-right" title="Click to delete employee." (click)="deleteEmployee(e.id, i)">
+                    <span class="fa fa-trash-o"></span>
+                  </button>
+                  <button type="submit" class="btn btn-outline-info btn-sm pull-right mr-1" title="Click to edit" 
+                          [disabled]="!employeeForm.form.valid"
+                          (click)="createOrUpdateEmployee(e)">
+                  <span *ngIf="!e.editable" class="fa fa-pencil"></span>
+                  <span *ngIf="e.editable" class="fa fa-save"></span>
+                </button>
               </div>
               <div [attr.id]="e.id" class="collapse" [ngClass]="{'show': e.editable}" data-parent="#employees">
                 <div class="card-body">

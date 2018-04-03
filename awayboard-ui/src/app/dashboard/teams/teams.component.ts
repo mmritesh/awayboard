@@ -28,7 +28,7 @@ export class TeamsComponent implements OnInit {
     if(f)
         alert("Save the draft version first.");
     else
-      this.teams.push(new Team());
+      this.teams.unshift(new Team());
   }
 
   saveOrUpdate(team){

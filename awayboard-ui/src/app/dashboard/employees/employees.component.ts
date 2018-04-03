@@ -67,7 +67,7 @@ export class EmployeesComponent implements OnInit {
     if (f)
       alert("Save the draft version first.");
     else
-      this.employees.push(new Employee());
+      this.employees.unshift(new Employee());
   }
 
   deleteEmployee(id, i) {
