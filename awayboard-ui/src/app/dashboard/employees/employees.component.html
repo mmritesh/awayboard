@@ -45,7 +45,7 @@
                         <input class="form-control" placeholder="Enter Name" [readonly]="!e.editable" [(ngModel)]="e.name" name="name" #name="ngModel" required></p>
                       <p class="mb-1">Status:<span *ngIf="!(status.valid || status.pristine)" class="">*</span>
                         <select [disabled]="!e.editable" class="form-control" [(ngModel)]="e.currentStatus" name="status" #status="ngModel" required>
-                          <option [value]="" disabled>Select</option>
+                          <option value="undefined" disabled>Select</option>
                           <option *ngFor="let s of statuses; let i = index" [value]="s">{{statusToRead[s]}}</option>                                
                         </select>
                       </p>
