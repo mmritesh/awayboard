@@ -11,7 +11,7 @@ export class AppConstants{
         "HOME_OFFICE": "Home Office",
         "AWAY": "Away"
     }
-    public static readonly API_BASE = "http://localhost:8080";
+    public static readonly API_BASE = "";
     public static readonly API_GET_TEAMS = "/teams";
     public static readonly API_GET_EMPLOYEES = "/employees";
     public static readonly API_TEAM = "/team";
