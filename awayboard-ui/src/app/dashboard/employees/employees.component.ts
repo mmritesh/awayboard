@@ -14,9 +14,9 @@ import { AppConstants } from '../../app.constants';
 export class EmployeesComponent implements OnInit {
 
   @Input()
-  private employees;
+  public employees;
   @Input()
-  private teams;
+  public teams;
   private selectedTeam = -1;
 
   private readonly statuses = AppConstants.STATUS;

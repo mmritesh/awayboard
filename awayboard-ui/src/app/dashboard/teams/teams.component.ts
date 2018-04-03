@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class TeamsComponent implements OnInit {
 
   @Input()
-  private teams;
+  public teams;
 
   constructor(private teamService: TeamService, private router: Router) { }
 

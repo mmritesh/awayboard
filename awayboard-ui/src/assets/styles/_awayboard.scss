@@ -1,0 +1,114 @@
+
+/* columns */
+.columns {
+  min-height: calc(100vh - 7.5em);
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: var(--grids);
+  grid-gap: var(--gap);
+}
+
+  .column {
+    min-height: var(--size);
+    padding: var(--spacing);
+
+    position: relative;
+    display: grid;
+    grid-gap: var(--gap);
+    grid-auto-rows: var(--size);
+    grid-template-columns: repeat(auto-fit, var(--size));
+
+    // border: 2px solid var(--light);
+    box-shadow: 10px 10px 69px -9px rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    opacity: 0.8;
+    @include animate-column();
+  }
+
+  @media(max-width: 726px) {
+    .column:before {
+      position: absolute;
+      bottom: var(--spacing); right: var(--spacing);
+      content: attr(title); /* uses an emoji */
+    }
+  }
+
+  [data-col="office"]{
+    background-image: url("../images/office.jpg");
+  }
+  [data-col="homeoffice"]{
+    background-image: url("../images/wfh.jpg");
+  }
+  [data-col="away"]{
+    background-image: url("../images/vacation.jpg");
+  }
+
+.header {
+  display: grid;
+  grid-template-columns: var(--grids);
+  grid-gap: var(--gap);
+  text-align: center;
+}
+
+@media(max-width: 726px) {
+  .header {
+    display: none;
+  }
+}
+
+/* tile related */
+.tile {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 3px 5px 10px 0 #2f4f4f;
+
+  @include animate-column();
+}
+
+  .tile__header {
+    position: absolute;
+    width: 100%;
+    bottom: calc(var(--spacing) / 2);
+    left: var(--spacing);
+    color: var(--dark);
+
+  }
+
+  .tilt {
+    transform: rotate(3deg);
+  }
+
+  .tile__content {
+  }
+
+  .tile__image {
+    width: calc(var(--size) - var(--spacing)*2 );
+    height: calc(var(--size) - var(--spacing)*5 );
+    margin-top: var(--spacing);
+    object-fit: cover;
+  }
+
+  .tile__remove {
+    position: absolute;
+    top: calc(var(--spacing) + (var(--spacing) / 2));
+    right: calc(var(--spacing) + (var(--spacing) / 2));
+    padding: 0;
+
+    cursor: pointer;
+    background: none;
+    border: 0;
+    color: #ccc;
+    font: inherit;
+  }
+
+/* drop area */
+.tile__placeholder {
+  height: var(--size);
+  border: 1px dashed var(--light);
+  border-radius: var(--radius);
+}

@@ -17,11 +17,11 @@ export class AwayboardComponent implements OnInit {
   id: number;
   private sub: any;
   private team: any;
-  private employees;
+  public employees;
   private allEmployees;
   private selection = -1;
 
-  private show = false;
+  public show = false;
   private readonly statuses = AppConstants.STATUS;
   private employeeDropdownData = new Array<Select2OptionData>();
 

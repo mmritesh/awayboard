@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   }
 
   
-  private teams = [
+  public teams = [
     {
       "id": 1,
       "name": "Team 1",
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  private employees = [
+  public employees = [
     {
       "id": 1,
       "name": "Ritesh",

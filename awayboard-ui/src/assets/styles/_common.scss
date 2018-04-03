@@ -1,0 +1,10 @@
+* {
+  box-sizing: border-box;
+  --gap: 10px;
+  --radius: 1px;
+  --spacing: 0.4em;
+  --size: 100px;
+  --dark: #464646;
+  --light: #c5c5c5;
+  --grids: repeat(auto-fit, minmax(235px, 1fr));
+}
